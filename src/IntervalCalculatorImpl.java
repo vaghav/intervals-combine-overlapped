@@ -3,7 +3,7 @@ import java.util.*;
 public class IntervalCalculatorImpl implements IntervalCalculator {
 
     @Override
-    public List<Interval> combineOverlapped(List<Interval> intervals) {
+    public List<Interval> mergeOverlapped(List<Interval> intervals) {
 
         intervals.sort(new LowerBoundComparator());
 
@@ -33,10 +33,11 @@ public class IntervalCalculatorImpl implements IntervalCalculator {
     }
 
     private boolean isOverlappingExists(Interval retrieved, Interval current) {
-        return retrieved.getIntervalValues().contains(current.getUpperBound());
+        return retrieved.getUpperBound() >= current.getUpperBound();
     }
 
     private boolean isIntersectionExists(Interval retrieved, Interval current) {
-        return retrieved.getIntervalValues().contains(current.getLowerBound());
+        return retrieved.getLowerBound() <= current.getLowerBound()
+                && retrieved.getUpperBound() >= current.getLowerBound();
     }
 }

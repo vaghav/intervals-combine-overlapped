@@ -1,5 +1,5 @@
 import java.util.List;
 
 public interface IntervalCalculator {
-    List<Interval> combineOverlapped(List<Interval> intervals);
+    List<Interval> mergeOverlapped(List<Interval> intervals);
 }
