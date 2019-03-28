@@ -27,8 +27,7 @@ public class IntervalCalculatorImpl implements IntervalCalculator {
             }
         }
 
-        List<Interval> list = new ArrayList(intervalStack);
-        Collections.reverse(list);
+        List<Interval> list = new ArrayList(intervalStack);        
         return list;
     }
 
