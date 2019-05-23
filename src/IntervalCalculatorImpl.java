@@ -7,37 +7,28 @@ public class IntervalCalculatorImpl implements IntervalCalculator {
 
         intervals.sort(new LowerBoundComparator());
 
-        Deque<Interval> intervalStack = new ArrayDeque<>();
+        List<Interval> mergedIntervalsList = new ArrayList<>();
 
-        intervalStack.push(intervals.get(0));
+        Interval lastProcessed = intervals.get(0);
+
         for (int i = 1; i < intervals.size(); i++) {
-            Interval retrieved = intervalStack.pop();
             Interval current = intervals.get(i);
 
-            if (isOverlappingExists(retrieved, current)) {
-                intervalStack.push(retrieved);
-                continue;
-            }
-
-            if (isIntersectionExists(retrieved, current)) {
-                intervalStack.push(new Interval(retrieved.getLowerBound(), current.getUpperBound()));
+            if (isIntersectionExists(lastProcessed, current)) {
+                lastProcessed = new Interval(Math.min(lastProcessed.getLowerBound(), current.getLowerBound()),
+                        Math.max(lastProcessed.getUpperBound(), current.getUpperBound()));
             } else {
-                intervalStack.push(retrieved);
-                intervalStack.push(current);
+                mergedIntervalsList.add(lastProcessed);
+                lastProcessed = current;
             }
         }
 
-        List<Interval> list = new ArrayList(intervalStack);
-        Collections.reverse(list);
-        return list;
+        mergedIntervalsList.add(lastProcessed);
+        return mergedIntervalsList;
     }
 
-    private boolean isOverlappingExists(Interval retrieved, Interval current) {
-        return retrieved.getUpperBound() >= current.getUpperBound();
-    }
-
-    private boolean isIntersectionExists(Interval retrieved, Interval current) {
-        return retrieved.getLowerBound() <= current.getLowerBound()
-                && retrieved.getUpperBound() >= current.getLowerBound();
+    private boolean isIntersectionExists(Interval processed, Interval current) {
+        return processed.getLowerBound() <= current.getUpperBound()
+                && processed.getUpperBound() >= current.getLowerBound();
     }
 }

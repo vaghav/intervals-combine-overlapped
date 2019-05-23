@@ -15,7 +15,11 @@ public class IntervalCalculatorTest {
                 new Interval(16, 18),
                 new Interval(17, 20),
                 new Interval(11, 13),
-                new Interval(3, 8)));
+                new Interval(3, 8),
+                new Interval(21, 30),
+                new Interval(32, 33),
+                new Interval(33, 35),
+                new Interval(38, 40)));
 
         List<Interval> actual = intervalCalculator.mergeOverlapped(intervals);
 
