@@ -5,6 +5,10 @@ public class IntervalCalculatorImpl implements IntervalCalculator {
     @Override
     public List<Interval> mergeOverlapped(List<Interval> intervals) {
 
+        if (intervals == null || intervals.isEmpty()) {
+            throw new IllegalArgumentException("Intervals can't be empty or null");
+        }
+
         intervals.sort(new LowerBoundComparator());
 
         List<Interval> mergedIntervalsList = new ArrayList<>();
